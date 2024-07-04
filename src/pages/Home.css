@@ -60,6 +60,12 @@ body {
     margin-right: 10px;
     color: aliceblue;
   }
+
+  .search-container input{
+    margin-right: 10px;
+    height: 30px;
+    width:160px
+  }
   
   /* Video item styling */
   
@@ -158,9 +164,11 @@ img.btn{
   }
   button{
     background-color: #007bff;
+    justify-content:space-around;
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 8px 20px;
+    padding-bottom: 10px;
     cursor: pointer;
     border-radius: 3px;
     font-size: 16px; /* Larger font size for button text */

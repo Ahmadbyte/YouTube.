@@ -1,73 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import axios from 'axios';
 import './Home.css';
 import YouTubeLogo from '../logo.png';
 import UserLogo from '../user.png';
-import LikeLogo from '../like.png'; // Add a like logo image in your project
-import CommentLogo from '../cmt.png'; // Add a comment logo image in your project
+import LikeLogo from '../like.png';
+import CommentLogo from '../cmt.png';
 
-
-const mockVideos = [
-  {
-    _id: '1',
-    title: 'List of Surah',
-    videoUrl: 'https://www.youtube.com/watch?v=sjS8vkvycmw&list=PLF-AzhmyjY8xEojcjawrgQ8P21MJRuVfM&index=2',
-    description: 'All Quran Surah Available in this Video',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '2',
-    title: 'Surah Mulk',
-    videoUrl: 'https://www.youtube.com/watch?v=JwXN2fnc8Uk',
-    description: 'This is Surah Mulk',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '3',
-    title: 'Arabic',
-    videoUrl: 'https://www.youtube.com/watch?v=_Fwf45pIAtM&list=PL8UhM2ZIAXwt9LTHYZ74L6i3cO2xa_qYz',
-    description: 'Arabic',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '4',
-    title: 'Kissi ki Muskurahato',
-    videoUrl: 'https://www.youtube.com/watch?v=69pPYkGiEAQ',
-    description: 'Vintage song',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '5',
-    title: 'Kalam eneih',
-    videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
-    description: 'Arabic Song',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '6',
-    title: 'Khatta Meetha',
-    videoUrl: 'https://www.youtube.com/watch?v=fipkvZTGV24',
-    description: 'Khatta Meetha Movie',
-    likes: 0,
-    comments: [],
-  },
-];
+const API_KEY = 'AIzaSyAh--OFztAec_Q4pYhGb1JUdZFdWfE0oPY'; // Replace with your YouTube API key
 
 const Home = () => {
-  // const { user } = useContext(AuthContext);
   const [videos, setVideos] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('Islamic Lectures'); // Default search query
 
-  useEffect(() => {
-    setTimeout(() => {
-      setVideos(mockVideos);
-    }, 1000);
-  }, []);
+  const fetchVideos = async (query) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${query}&part=snippet,id&order=date&maxResults=5`
+      );
+      console.log('Response:', response.data); // Log response data to inspect
+      const videoData = response.data.items.map(item => ({
+        _id: item.id.videoId,
+        title: item.snippet.title,
+        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+        description: item.snippet.description,
+        likes: 0,
+        comments: [],
+      }));
+      setVideos(videoData);
+    } catch (error) {
+      console.error('Error fetching videos', error); // Log any errors that occur
+    }
+  };
 
   const handleLike = (id) => {
     setVideos(videos.map(video => video._id === id ? { ...video, likes: video.likes + 1 } : video));
@@ -77,20 +42,35 @@ const Home = () => {
     setVideos(videos.map(video => video._id === id ? { ...video, comments: [...video.comments, comment] } : video));
   };
 
+  const handleSearch = () => {
+    fetchVideos(searchQuery);
+  };
+
   return (
     <div className="videos-container">
       <header className="header">
         <div className="header-left" style={{ display: 'flex', alignItems: 'center' }}>
           <Link to='https://www.youtube.com'>
-          <img src={YouTubeLogo} alt="YouTube Logo" className="youtube-logo" />
+            <img src={YouTubeLogo} alt="YouTube Logo" className="youtube-logo" />
           </Link>
           <h1 className="youtube-text">YouTube</h1>
         </div>
         <div className="user-info">
-        <span className="username">Self</span>
+          <span className="username">Self</span>
           <img src={UserLogo} alt="User Logo" className="user-logo" />
         </div>
       </header>
+
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search videos..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+
       <ul>
         {videos.map((video) => (
           <li key={video._id} className="video-item">
