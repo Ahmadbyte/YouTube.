@@ -28,6 +28,7 @@ body {
     width: 47px;
     height: 37px;
     margin-right: 10px;
+    cursor: pointer;
   }
   
   /* YouTube text styling */
@@ -136,6 +137,10 @@ body {
     width: 20px;
     height: 20px;
   }
+
+img.btn{
+  margin-right: 5px;
+}
   
   /* Comments section styling */
   .comments-section {

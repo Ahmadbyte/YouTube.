@@ -73,7 +73,9 @@ const Home = () => {
     <div className="videos-container">
       <header className="header">
         <div className="header-left" style={{ display: 'flex', alignItems: 'center' }}>
+          <Link to='https://www.youtube.com'>
           <img src={YouTubeLogo} alt="YouTube Logo" className="youtube-logo" />
+          </Link>
           <h1 className="youtube-text">YouTube</h1>
         </div>
         <div className="user-info">
@@ -115,7 +117,6 @@ const Home = () => {
           </li>
         ))}
       </ul>
-      <Link to='/upload'><button>Upload</button></Link>
     </div>
   );
 };
