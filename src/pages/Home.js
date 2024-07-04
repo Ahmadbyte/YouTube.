@@ -11,7 +11,48 @@ import CommentLogo from '../cmt.png';
 const API_KEY = 'AIzaSyAh--OFztAec_Q4pYhGb1JUdZFdWfE0oPY'; // Replace with your YouTube API key
 
 const Home = () => {
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState([{
+    _id: '1',
+    title: 'List of Surah',
+    videoUrl: 'https://www.youtube.com/watch?v=sjS8vkvycmw&list=PLF-AzhmyjY8xEojcjawrgQ8P21MJRuVfM&index=2',
+    description: 'All Quran Surah Available in this Video',
+    likes: 0,
+    comments: [],
+  },
+  {
+    _id: '2',
+    title: 'Surah Mulk',
+    videoUrl: 'https://www.youtube.com/watch?v=JwXN2fnc8Uk',
+    description: 'This is Surah Mulk',
+    likes: 0,
+    comments: [],
+  },
+  {
+    _id: '3',
+    title: 'Arabic',
+    videoUrl: 'https://www.youtube.com/watch?v=_Fwf45pIAtM&list=PL8UhM2ZIAXwt9LTHYZ74L6i3cO2xa_qYz',
+    description: 'Arabic',
+    likes: 0,
+    comments: [],
+  },
+  {
+    _id: '4',
+    title: 'Kissi ki Muskurahato',
+    videoUrl: 'https://www.youtube.com/watch?v=69pPYkGiEAQ',
+    description: 'Vintage song',
+    likes: 0,
+    comments: [],
+  },
+  {
+    _id: '5',
+    title: 'Kalam eneih',
+    videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+    description: 'Arabic Song',
+    likes: 0,
+    comments: [],
+  },
+]);
+
   const [searchQuery, setSearchQuery] = useState('Islamic Lectures'); // Default search query
 
   const fetchVideos = async (query) => {
