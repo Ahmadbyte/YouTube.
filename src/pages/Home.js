@@ -49,6 +49,14 @@ const mockVideos = [
     likes: 0,
     comments: [],
   },
+  {
+    _id: '6',
+    title: 'Khatta Meetha',
+    videoUrl: 'https://www.youtube.com/watch?v=fipkvZTGV24',
+    description: 'Khatta Meetha Movie',
+    likes: 0,
+    comments: [],
+  },
 ];
 
 const Home = () => {
