@@ -11,17 +11,17 @@ import CommentLogo from '../cmt.png'; // Add a comment logo image in your projec
 const mockVideos = [
   {
     _id: '1',
-    title: 'Surah Mulk',
-    videoUrl: 'https://www.youtube.com/watch?v=JwXN2fnc8Uk',
-    description: 'This is Surah Mulk',
+    title: 'List of Surah',
+    videoUrl: 'https://www.youtube.com/watch?v=sjS8vkvycmw&list=PLF-AzhmyjY8xEojcjawrgQ8P21MJRuVfM&index=2',
+    description: 'All Quran Surah Available in this Video',
     likes: 0,
     comments: [],
   },
   {
     _id: '2',
-    title: 'List of Surah',
-    videoUrl: 'https://www.youtube.com/watch?v=sjS8vkvycmw&list=PLF-AzhmyjY8xEojcjawrgQ8P21MJRuVfM&index=2',
-    description: 'All Quran Surah Available in this Video',
+    title: 'Surah Mulk',
+    videoUrl: 'https://www.youtube.com/watch?v=JwXN2fnc8Uk',
+    description: 'This is Surah Mulk',
     likes: 0,
     comments: [],
   },
@@ -79,8 +79,8 @@ const Home = () => {
           <h1 className="youtube-text">YouTube</h1>
         </div>
         <div className="user-info">
+        <span className="username">Self</span>
           <img src={UserLogo} alt="User Logo" className="user-logo" />
-          <span className="username">Self</span>
         </div>
       </header>
       <ul>

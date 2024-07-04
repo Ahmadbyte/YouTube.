@@ -51,12 +51,13 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%; /* Make it circular */
-    margin-right: 10px;
+    
   }
   
   /* Username styling */
   .username {
     font-size: 1rem;
+    margin-right: 10px;
     color: aliceblue;
   }
   
