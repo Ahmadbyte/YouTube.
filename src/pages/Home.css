@@ -150,8 +150,8 @@ body {
     height: 20px;
   }
 
-img.btn{
-  margin-right: 5px;
+.btnn:hover{
+  background-color:#191919;
 }
   
   /* Comments section styling */
