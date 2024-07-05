@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
@@ -8,52 +8,54 @@ import UserLogo from '../user.png';
 import LikeLogo from '../like.png';
 import CommentLogo from '../cmt.png';
 
-const API_KEY = 'AIzaSyAh--OFztAec_Q4pYhGb1JUdZFdWfE0oPY'; // Replace with your YouTube API key
+const API_KEY = 'AIzaSyAMfjkTiVru8DaqGjSa1ps0QspxNJSBbrE'; // Replace with your YouTube API key
 
 const Home = () => {
-  const [videos, setVideos] = useState([{
-    _id: '1',
-    title: 'List of Surah',
-    videoUrl: 'https://www.youtube.com/watch?v=sjS8vkvycmw&list=PLF-AzhmyjY8xEojcjawrgQ8P21MJRuVfM&index=2',
-    description: 'All Quran Surah Available in this Video',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '2',
-    title: 'Surah Mulk',
-    videoUrl: 'https://www.youtube.com/watch?v=JwXN2fnc8Uk',
-    description: 'This is Surah Mulk',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '3',
-    title: 'Arabic',
-    videoUrl: 'https://www.youtube.com/watch?v=_Fwf45pIAtM&list=PL8UhM2ZIAXwt9LTHYZ74L6i3cO2xa_qYz',
-    description: 'Arabic',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '4',
-    title: 'Kissi ki Muskurahato',
-    videoUrl: 'https://www.youtube.com/watch?v=69pPYkGiEAQ',
-    description: 'Vintage song',
-    likes: 0,
-    comments: [],
-  },
-  {
-    _id: '5',
-    title: 'Kalam eneih',
-    videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
-    description: 'Arabic Song',
-    likes: 0,
-    comments: [],
-  },
-]);
+  const [videos, setVideos] = useState([
+    {
+      _id: '1',
+      title: 'List of Surah',
+      videoUrl: 'https://www.youtube.com/watch?v=sjS8vkvycmw&list=PLF-AzhmyjY8xEojcjawrgQ8P21MJRuVfM&index=2',
+      description: 'All Quran Surah Available in this Video',
+      likes: 0,
+      comments: [],
+    },
+    {
+      _id: '2',
+      title: 'Surah Mulk',
+      videoUrl: 'https://www.youtube.com/watch?v=JwXN2fnc8Uk',
+      description: 'This is Surah Mulk',
+      likes: 0,
+      comments: [],
+    },
+    {
+      _id: '3',
+      title: 'Arabic',
+      videoUrl: 'https://www.youtube.com/watch?v=_Fwf45pIAtM&list=PL8UhM2ZIAXwt9LTHYZ74L6i3cO2xa_qYz',
+      description: 'Arabic',
+      likes: 0,
+      comments: [],
+    },
+    {
+      _id: '4',
+      title: 'Kissi ki Muskurahato',
+      videoUrl: 'https://www.youtube.com/watch?v=69pPYkGiEAQ',
+      description: 'Vintage song',
+      likes: 0,
+      comments: [],
+    },
+    {
+      _id: '5',
+      title: 'Kalam eneih',
+      videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+      description: 'Arabic Song',
+      likes: 0,
+      comments: [],
+    },
+  ]);
 
-  const [searchQuery, setSearchQuery] = useState('Islamic Lectures'); // Default search query
+  const [searchQuery, setSearchQuery] = useState(''); // Default search query
+  const [currentVideoId, setCurrentVideoId] = useState(null);
 
   const fetchVideos = async (query) => {
     try {
@@ -87,6 +89,24 @@ const Home = () => {
     fetchVideos(searchQuery);
   };
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && currentVideoId) {
+        // const videoElement = document.getElementById(currentVideoId);
+        // if (videoElement) videoElement.play();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [currentVideoId]);
+
+  const handlePlay = (id) => {
+    setCurrentVideoId(id);
+  };
+
   return (
     <div className="videos-container">
       <header className="header">
@@ -105,7 +125,7 @@ const Home = () => {
       <div className="search-container">
         <input
           type="text"
-          placeholder="Search videos..."
+          placeholder="   Search videos..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -118,10 +138,13 @@ const Home = () => {
             <h3>{video.title}</h3>
             <div className="video-player">
               <ReactPlayer
+                id={video._id}
                 url={video.videoUrl}
                 width="100%"
                 height="100%"
                 controls
+                playing={currentVideoId === video._id}
+                onPlay={() => handlePlay(video._id)}
                 config={{
                   youtube: {
                     playerVars: { showinfo: 1 },

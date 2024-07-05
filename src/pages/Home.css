@@ -63,9 +63,14 @@ body {
 
   .search-container input{
     margin-right: 10px;
-    height: 30px;
-    width:160px
+    border-radius: 30px;
+    border: none;
+    height: 35px;
+    width:260px;
+    background-color: #333;
+    color:#ccc;
   }
+
   
   /* Video item styling */
   
@@ -167,10 +172,11 @@ img.btn{
     justify-content:space-around;
     color: white;
     border: none;
+    height:34px;
     padding: 8px 20px;
     padding-bottom: 10px;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 30px;
     font-size: 16px; /* Larger font size for button text */
     transition: background-color 0.3s ease;
   }
