@@ -61,33 +61,33 @@ const Home = () => {
       },
       {
         _id: '6',
-        title: 'Kalam eneih',
-        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
-        description: 'Arabic Song',
+        title: 'Oggy',
+        videoUrl: 'https://www.youtube.com/watch?v=YAptelyjF-E',
+        description: 'Oggy cartoon',
         likes: 0,
         comments: [],
       },
       {
         _id: '7',
-        title: 'Kalam eneih',
-        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
-        description: 'Arabic Song',
+        title: 'Mr. Bean',
+        videoUrl: 'https://www.youtube.com/watch?v=bUxd3jqCr94',
+        description: 'Mr Bean Cartoon',
         likes: 0,
         comments: [],
       },
       {
         _id: '8',
-        title: 'Kalam eneih',
-        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
-        description: 'Arabic Song',
+        title: 'Hera Pheri',
+        videoUrl: 'https://www.youtube.com/watch?v=TIQ5hrfermg',
+        description: 'Hera Pheri Full Movie',
         likes: 0,
         comments: [],
       },
       {
         _id: '9',
-        title: 'Kalam eneih',
-        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
-        description: 'Arabic Song',
+        title: 'Dhamaal',
+        videoUrl: 'https://www.youtube.com/watch?v=6xdRuJoEMoU',
+        description: 'Dhamaal Full Movie',
         likes: 0,
         comments: [],
       },
@@ -214,6 +214,9 @@ const Home = () => {
           </li>
         ))}
       </ul>
+      <footer class="footer">
+    <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved.</p>
+  </footer>
     </div>
   );
 };
