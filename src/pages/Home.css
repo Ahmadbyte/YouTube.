@@ -1,187 +1,211 @@
 /* Home.css */
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #212121;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .videos-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #000; /* Set background color to black */
-    color: #fff; /* Set text color to white for better contrast */
-  }
-  
-  /* Header styling */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Space between logo and user info */
-    margin-bottom: 20px;
-  }
-  
-  /* YouTube logo styling */
-  .youtube-logo {
-    width: 47px;
-    height: 37px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  /* YouTube text styling */
-  .youtube-text {
-    color: #cecece;
-    font-size: 2rem;
-    margin: 0;
-    margin-left: 1px;
-  }
-  
-  /* User info styling */
-  .user-info {
-    display: flex;
-    align-items: center;
-    color: #fff; /* Set text color to white */
-  }
-  
-  /* User logo styling */
-  .user-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* Make it circular */
-    
-  }
-  
-  /* Username styling */
-  .username {
-    font-size: 1rem;
-    margin-right: 10px;
-    color: aliceblue;
-  }
-
-  .search-container input{
-    margin-right: 10px;
-    border-radius: 30px;
-    border: none;
-    height: 35px;
-    width:260px;
-    background-color: #333;
-    color:#ccc;
-  }
-
-  
-  /* Video item styling */
-  
-  ul {
-    list-style-type: none; /* Remove the bullets */
-    padding: 0;
-  }
-  
-  .video-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: #1a1a1a;
-  }
-  
-  .video-item h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-  }
-  
-  .video-item .video-player {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 aspect ratio (for responsive iframe) */
-  }
-  
-  .video-item .video-player iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .video-item p {
-    margin-top: 10px;
-    color: #ccc;
-  }
-  
-  /* Video actions styling */
-  .video-actions {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  .video-actions button {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-  }
-  
-  .video-actions button:hover {
-    color: #cecece;
-  }
-  
-  .video-actions .action-logo {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-  }
-  
-  .btnn {
-    padding-left: 15px;
-    width: 20px;
-    height: 20px;
-  }
-  
-  .btn {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-  }
-
-.btnn:hover{
-  background-color:#191919;
+  font-family: Arial, sans-serif;
+  background-color: #292929;
+  margin-left: 0;
+  padding: 0;
+  color: #bdb5b5; /* Set text color to white */
 }
-  
-  /* Comments section styling */
-  .comments-section {
-    margin-top: 10px;
-    color: #ccc;
+
+.videos-container {
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap; /* Allow videos to wrap to the next line */
+  justify-content: flex-start; /* Start layout from the left */
+  margin-top: 80px; /* Adjust top margin to accommodate fixed header */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #333; /* Dark background for the fixed header */
+  z-index: 1000; /* Ensure header is above other content */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push user info to the right */
+}
+
+.youtube-logo {
+  margin-top: 4px;
+  width: 45px;
+  height: 32px;
+  margin-left:15px;
+}
+
+.youtube-text {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left:10px;
+  color: #e7e7e7;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  color: #f0efef;
+}
+
+.user-logo {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-top: -1px;
+  margin-bottom: 15px;
+  margin-left: auto;
+}
+
+.search-container input[type="text"] {
+  width: 300px;
+  height: 36px;
+  margin-right:7px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 40px;
+  margin-left: auto;
+}
+
+.search-container button {
+  height: 38px;
+  padding: 0 20px;
+  margin-right:10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+}
+.search-container button:hover {
+  background-color: #136bca;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap; /* Allow videos to wrap to the next line */
+  justify-content: flex-start; /* Start layout from the left */
+  gap: 20px; /* Adjust space between videos */
+}
+
+.video-item {
+  flex: 0 0 calc(25% - 20px); /* Each row contains 4 videos, adjust as needed */
+  margin-bottom: 20px;
+  border: 1px solid #707070;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.video-item h3{
+  margin-left: 10px;
+}
+
+.video-player {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.video-player > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-actions {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #43474b;
+}
+
+.btnn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #e4e4e4;
+}
+
+.btn {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.comments-section {
+  padding: 10px;
+}
+
+.comment {
+  margin: 5px 0;
+}
+
+@media (max-width: 1200px) {
+  .video-item {
+    flex-basis: calc(33.33% - 20px); /* Each row contains 3 videos for larger screens */
   }
-  
-  .comment {
-    margin: 5px 0;
-    padding: 5px;
-    border: 1px solid #333;
-    border-radius: 4px;
-    background-color: #2a2a2a;
+}
+
+@media (max-width: 992px) {
+  .video-item {
+    flex-basis: calc(50% - 20px); /* Each row contains 2 videos for medium screens */
   }
-  button{
-    background-color: #007bff;
-    justify-content:space-around;
-    color: white;
-    border: none;
-    height:34px;
-    padding: 8px 20px;
-    padding-bottom: 10px;
-    cursor: pointer;
-    border-radius: 30px;
-    font-size: 16px; /* Larger font size for button text */
-    transition: background-color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .video-item {
+    flex-basis: calc(100% - 20px); /* Full width for small screens, 1 video per row */
   }
-  
-  button:hover{
-    background-color: #1f5fbf;
+
+  .search-container {
+    flex-direction: column;
+    align-items: center; /* Center items vertically */
+    margin-left: 0;
+    margin-bottom: 10px; /* Space between input and button */
   }
+
+  .search-container input[type="text"] {
+    width: 100%; /* Full width for input on smaller screens */
+    margin-bottom: 10px; /* Space below input */
+  }
+
+  .search-container button {
+    width: 100%; /* Full width for button on smaller screens */
+  }
+
+  .header-right {
+    margin-left: 0; /* Reset margin for header right on smaller screens */
+    margin-right: 20px; /* Add margin to separate from search */
+  }
+
+  .videos-container {
+    margin-top: 120px; /* Adjust margin to accommodate fixed header on smaller screens */
+  }
+}

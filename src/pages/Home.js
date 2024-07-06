@@ -59,6 +59,46 @@ const Home = () => {
         likes: 0,
         comments: [],
       },
+      {
+        _id: '6',
+        title: 'Kalam eneih',
+        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+        description: 'Arabic Song',
+        likes: 0,
+        comments: [],
+      },
+      {
+        _id: '7',
+        title: 'Kalam eneih',
+        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+        description: 'Arabic Song',
+        likes: 0,
+        comments: [],
+      },
+      {
+        _id: '8',
+        title: 'Kalam eneih',
+        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+        description: 'Arabic Song',
+        likes: 0,
+        comments: [],
+      },
+      {
+        _id: '9',
+        title: 'Kalam eneih',
+        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+        description: 'Arabic Song',
+        likes: 0,
+        comments: [],
+      },
+      {
+        _id: '10',
+        title: 'Kalam eneih',
+        videoUrl: 'https://www.youtube.com/watch?v=R8I3FOX7aZY',
+        description: 'Arabic Song',
+        likes: 0,
+        comments: [],
+      },
     ]);
   }, []);
 
