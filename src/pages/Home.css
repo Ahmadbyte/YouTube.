@@ -10,7 +10,7 @@ body {
 
 .videos-container {
   width: 100%;
-  padding: 5px;
+  padding: 8px;
   display: flex;
   flex-wrap: wrap; /* Allow videos to wrap to the next line */
   justify-content: flex-start; /* Start layout from the left */
@@ -74,11 +74,58 @@ body {
   height: 30px;
   margin-left: 10px;
 }
+.theme-toggle {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  width: 40px;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.theme-toggle.dark {
+  background-color: #3c3c3c; /* Dark mode switch background color */
+}
+
+.theme-toggle.light {
+  background-color: #3c3c3c; /* Light mode switch background color */
+}
+
+.fa-sun{
+  height:20px;
+}
+
+.theme-toggle.dark .fa-sun {
+  color: #fbca06;
+  left: 0;
+  transition: left 0.3s ease-in-out;
+}
+
+.fa-moon{
+  height:20px;
+}
+
+.theme-toggle.light .fa-moon {
+  color: #74ffbc;
+  right: 0;
+  transition: right 0.3s ease-in-out;
+}
+
+.theme-toggle .fa-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #f39c12; /* Icon color */
+  transition: color 0.3s ease-in-out;
+}
+
 
 .search-container {
   display: flex;
   align-items: center;
-  margin-top: -1px;
   margin-bottom: 15px;
   margin-left: auto;
 }
@@ -126,6 +173,7 @@ ul {
   border: 1px solid #707070;
   border-radius: 4px;
   overflow: hidden;
+  background-color: #282828; /* Keep background color for both light and dark mode */
 }
 
 .video-item h3{
@@ -174,6 +222,7 @@ ul {
 }
 
 .comment {
+  border-radius: 3px;
   margin: 5px 0;
 }
 
@@ -218,4 +267,92 @@ ul {
   .videos-container {
     margin-top: 120px; /* Adjust margin to accommodate fixed header on smaller screens */
   }
+}
+
+/* Light mode styles */
+.light {
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.light .header {
+  background-color: #323232;
+}
+
+.light .footer {
+  background-color: #3c3c3c;
+  color: black;
+}
+
+.light .youtube-text {
+  color:#e5e5e5
+}
+
+.light .user-info {
+  color: rgb(230, 230, 230);
+}
+
+.light .search-container input[type="text"] {
+  background-color: #fff;
+  color: black;
+}
+
+.light .video-actions {
+  background-color: #282828;
+}
+
+.light .video-item h3 {
+  color: #e0e0e0;
+}
+
+.light p{
+  color:#ccc
+}
+
+.light .btnn {
+  color: rgb(225, 225, 225);
+}
+
+.light .comment {
+  background-color: #fffdfd;
+  color: #404040;
+}
+
+/* Dark mode styles */
+.dark {
+  background-color: #191919;
+  color: #bdb5b5;
+}
+
+.dark .header {
+  background-color: #333;
+}
+
+.dark .footer {
+  background-color: #333;
+}
+
+.dark .youtube-text {
+  color: #e7e7e7;
+}
+
+.dark .user-info {
+  color: #f0efef;
+}
+
+.dark .search-container input[type="text"] {
+  background-color: #2e2e2e;
+  color: #e4e4e4;
+}
+
+.dark .video-actions {
+  background-color: #43474b;
+}
+
+.dark .btnn {
+  color: #e4e4e4;
+}
+
+.dark .comment {
+  background-color: #404040;
 }

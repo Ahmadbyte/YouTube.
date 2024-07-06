@@ -7,6 +7,8 @@ import YouTubeLogo from '../logo.png';
 import UserLogo from '../user.png';
 import LikeLogo from '../like.png';
 import CommentLogo from '../cmt.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const API_KEY = 'AIzaSyAMfjkTiVru8DaqGjSa1ps0QspxNJSBbrE'; // Replace with your YouTube API key
 
@@ -14,6 +16,7 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); // Default search query
   const [currentVideoId, setCurrentVideoId] = useState(null);
+  const [theme, setTheme] = useState('dark'); // Theme state
   const playerRefs = useRef([]);
 
   useEffect(() => {
@@ -143,6 +146,10 @@ const Home = () => {
     }
   };
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+  };
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden && currentVideoId) {
@@ -158,7 +165,7 @@ const Home = () => {
   }, [currentVideoId]);
 
   return (
-    <div className="videos-container">
+    <div className={`videos-container ${theme}`}>
       <header className="header">
         <div className="header-left" style={{ display: 'flex', alignItems: 'center' }}>
           <Link to='https://www.youtube.com'>
@@ -167,8 +174,12 @@ const Home = () => {
           <h1 className="youtube-text">YouTube</h1>
         </div>
         <div className="user-info">
+        <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>
+            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
+          </button>
           <span className="username">Self</span>
           <img src={UserLogo} alt="User Logo" className="user-logo" />
+          
         </div>
       </header>
 
