@@ -16,6 +16,7 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const [searchQuery, setSearchQuery] = useState(''); // Default search query
   const [currentVideoId, setCurrentVideoId] = useState(null);
+  const [currentVideo, setCurrentVideo] = useState(null); // State for current video object
   const [theme, setTheme] = useState('dark'); // Theme state
   const playerRefs = useRef([]);
 
@@ -125,11 +126,29 @@ const Home = () => {
   };
 
   const handleLike = (id) => {
-    setVideos(videos.map(video => video._id === id ? { ...video, likes: video.likes + 1 } : video));
+    const updatedVideos = videos.map(video => {
+      if (video._id === id) {
+        return { ...video, likes: video.likes + 1 };
+      }
+      return video;
+    });
+    setVideos(updatedVideos);
+    if (currentVideo && currentVideo._id === id) {
+      setCurrentVideo({ ...currentVideo, likes: currentVideo.likes + 1 });
+    }
   };
 
   const handleComment = (id, comment) => {
-    setVideos(videos.map(video => video._id === id ? { ...video, comments: [...video.comments, comment] } : video));
+    const updatedVideos = videos.map(video => {
+      if (video._id === id) {
+        return { ...video, comments: [...video.comments, comment] };
+      }
+      return video;
+    });
+    setVideos(updatedVideos);
+    if (currentVideo && currentVideo._id === id) {
+      setCurrentVideo({ ...currentVideo, comments: [...currentVideo.comments, comment] });
+    }
   };
 
   const handleSearch = () => {
@@ -137,7 +156,9 @@ const Home = () => {
   };
 
   const handlePlay = (id) => {
+    const video = videos.find(video => video._id === id);
     setCurrentVideoId(id);
+    setCurrentVideo(video);
   };
 
   const handleKeyDown = (event) => {
@@ -173,29 +194,62 @@ const Home = () => {
           </Link>
           <h1 className="youtube-text">YouTube</h1>
         </div>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="   Search videos..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
         <div className="user-info">
-        <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>
+          <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>
             <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
           </button>
           <span className="username">Self</span>
           <img src={UserLogo} alt="User Logo" className="user-logo" />
-          
         </div>
       </header>
 
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="   Search videos..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
+      {currentVideo && (
+        <div className="current-video">
+          <h3>{currentVideo.title}</h3>
+          <div className="video-player-large">
+            <ReactPlayer
+              id={currentVideo._id}
+              url={currentVideo.videoUrl}
+              width="100%"
+              height="100%"
+              controls
+              playing={currentVideoId === currentVideo._id}
+              config={{
+                youtube: {
+                  playerVars: { showinfo: 1 },
+                },
+              }}
+            />
+          </div>
+          <p>{currentVideo.description}</p>
+          <div className="video-actions">
+            <button className="btnn" onClick={() => handleLike(currentVideo._id)}>
+              <img src={LikeLogo} alt="Like" className="btn" /> {currentVideo.likes}
+            </button>
+            <button className="btnn" onClick={() => handleComment(currentVideo._id, prompt('Enter your comment:'))}>
+              <img src={CommentLogo} alt="Comment" className="btn" /> {currentVideo.comments.length}
+            </button>
+          </div>
+          <div className="comments-section">
+            {currentVideo.comments.map((comment, index) => (
+              <p key={index} className="comment">{comment}</p>
+            ))}
+          </div>
+        </div>
+      )}
 
-      <ul>
-        {videos.map((video, index) => (
+      <ul className="video-list">
+        {videos.filter(video => video._id !== currentVideoId).map((video, index) => (
           <li key={video._id} className="video-item">
             <h3>{video.title}</h3>
             <div className="video-player">

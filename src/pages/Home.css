@@ -3,7 +3,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #191919;
-  margin-left: 0;
+  margin: 0;
   padding: 0;
   color: #bdb5b5; /* Set text color to white */
 }
@@ -21,7 +21,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 0;
+  padding: 5px 20px; /* Add padding to the left and right */
   position: fixed;
   top: 0;
   left: 0;
@@ -45,7 +45,7 @@ body {
   background-color: #333;
   color: #fff;
   text-align: center;
-  padding: 1px;
+  padding: 10px;
   width: 100%;
 }
 
@@ -53,13 +53,13 @@ body {
   margin-top: 4px;
   width: 45px;
   height: 32px;
-  margin-left:15px;
+  margin-left: -1px;
 }
 
 .youtube-text {
   font-size: 24px;
   font-weight: bold;
-  margin-left:10px;
+  margin-left: 10px;
   color: #e7e7e7;
 }
 
@@ -74,6 +74,7 @@ body {
   height: 30px;
   margin-left: 10px;
 }
+
 .theme-toggle {
   background-color: transparent;
   border: none;
@@ -94,8 +95,8 @@ body {
   background-color: #3c3c3c; /* Light mode switch background color */
 }
 
-.fa-sun{
-  height:20px;
+.fa-sun {
+  height: 20px;
 }
 
 .theme-toggle.dark .fa-sun {
@@ -104,8 +105,8 @@ body {
   transition: left 0.3s ease-in-out;
 }
 
-.fa-moon{
-  height:20px;
+.fa-moon {
+  height: 20px;
 }
 
 .theme-toggle.light .fa-moon {
@@ -122,30 +123,31 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
-
 .search-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   margin-left: auto;
+  margin-right: 5px;
 }
 
 .search-container input[type="text"] {
   color: #e4e4e4;
   width: 300px;
   height: 36px;
-  margin-right:7px;
+  margin-right: 7px;
   font-size: 16px;
   border: 2px solid #ccc;
   border-radius: 40px;
-  margin-left: auto;
   background-color: #2e2e2e;
+  padding: 0 15px; /* Adjust padding for input */
 }
 
 .search-container button {
   height: 38px;
   padding: 0 20px;
-  margin-right:10px;
   font-size: 16px;
   background-color: #007bff;
   color: #fff;
@@ -153,6 +155,7 @@ body {
   border-radius: 40px;
   cursor: pointer;
 }
+
 .search-container button:hover {
   background-color: #136bca;
 }
@@ -176,8 +179,9 @@ ul {
   background-color: #282828; /* Keep background color for both light and dark mode */
 }
 
-.video-item h3{
+.video-item h3 {
   margin-left: 10px;
+  color: #e4e4e4; /* Consistent text color for both modes */
 }
 
 .video-player {
@@ -224,6 +228,33 @@ ul {
 .comment {
   border-radius: 3px;
   margin: 5px 0;
+  background-color: #404040; /* Dark background for comments in dark mode */
+  color: #bdb5b5; /* Light text color for comments in dark mode */
+}
+
+.current-video {
+  width: 100%;
+  max-width: 800px; /* Set a maximum width for the video container */
+  margin: 0 auto 20px; /* Center align the video container */
+  padding: 20px;
+  background-color: #282828;
+  border-radius: 13px;
+  border-bottom: 1px solid #ccc; /* Thin line below current video */
+}
+
+.video-player-large {
+  width: 100%;
+  height: 0;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  position: relative;
+}
+
+.video-player-large > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 1200px) {
@@ -236,6 +267,10 @@ ul {
   .video-item {
     flex-basis: calc(50% - 20px); /* Each row contains 2 videos for medium screens */
   }
+
+  .current-video {
+    max-width: 600px; /* Adjust maximum width for medium screens */
+  }
 }
 
 @media (max-width: 768px) {
@@ -244,28 +279,12 @@ ul {
   }
 
   .search-container {
-    flex-direction: column;
-    align-items: center; /* Center items vertically */
-    margin-left: 0;
-    margin-bottom: 10px; /* Space between input and button */
+    top: 10px; /* Adjust top position for smaller screens */
+    right: 10px; /* Adjust right position for smaller screens */
   }
 
-  .search-container input[type="text"] {
-    width: 100%; /* Full width for input on smaller screens */
-    margin-bottom: 10px; /* Space below input */
-  }
-
-  .search-container button {
-    width: 100%; /* Full width for button on smaller screens */
-  }
-
-  .header-right {
-    margin-left: 0; /* Reset margin for header right on smaller screens */
-    margin-right: 20px; /* Add margin to separate from search */
-  }
-
-  .videos-container {
-    margin-top: 120px; /* Adjust margin to accommodate fixed header on smaller screens */
+  .current-video {
+    max-width: 100%; /* Full width for small screens */
   }
 }
 
@@ -281,11 +300,11 @@ ul {
 
 .light .footer {
   background-color: #3c3c3c;
-  color: black;
+  color: white;
 }
 
 .light .youtube-text {
-  color:#e5e5e5
+  color: #e5e5e5;
 }
 
 .light .user-info {
@@ -305,11 +324,15 @@ ul {
   color: #e0e0e0;
 }
 
-.light p{
-  color:#ccc
+.light p {
+  color: #ccc;
 }
 
 .light .btnn {
+  color: rgb(225, 225, 225);
+}
+
+.light h3 {
   color: rgb(225, 225, 225);
 }
 
@@ -329,30 +352,5 @@ ul {
 }
 
 .dark .footer {
-  background-color: #333;
-}
-
-.dark .youtube-text {
-  color: #e7e7e7;
-}
-
-.dark .user-info {
-  color: #f0efef;
-}
-
-.dark .search-container input[type="text"] {
-  background-color: #2e2e2e;
-  color: #e4e4e4;
-}
-
-.dark .video-actions {
-  background-color: #43474b;
-}
-
-.dark .btnn {
-  color: #e4e4e4;
-}
-
-.dark .comment {
-  background-color: #404040;
+  background-color:#404040;
 }
