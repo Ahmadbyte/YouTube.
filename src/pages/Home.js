@@ -137,6 +137,12 @@ const Home = () => {
     setCurrentVideoId(id);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden && currentVideoId) {
@@ -172,6 +178,7 @@ const Home = () => {
           placeholder="   Search videos..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <button onClick={handleSearch}>Search</button>
       </div>
@@ -214,9 +221,9 @@ const Home = () => {
           </li>
         ))}
       </ul>
-      <footer class="footer">
-    <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved.</p>
-  </footer>
+      <footer className="footer">
+        <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
