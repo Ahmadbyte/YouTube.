@@ -236,7 +236,7 @@ const Home = () => {
             <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>
               <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
             </button>
-            <span className="username">User</span>
+            <span className="username">Self</span>
             <img src={UserLogo} alt="User Logo" className="user-logo" />
           </div>
         </header>
