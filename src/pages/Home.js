@@ -107,227 +107,228 @@ const Home = () => {
     ]);
   }, []);
   
-  useEffect(() => {
-    if ('webkitSpeechRecognition' in window) {
-      const recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
-
-      recognition.onresult = (event) => {
-        const speechToText = event.results[0][0].transcript;
-        setSearchQuery(speechToText);
-        fetchVideos(speechToText);
+    useEffect(() => {
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new window.webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+  
+        recognition.onresult = (event) => {
+          const speechToText = event.results[0][0].transcript;
+          setSearchQuery(speechToText);
+          fetchVideos(speechToText);
+        };
+  
+        recognitionRef.current = recognition;
+      }
+    }, []);
+  
+    const fetchVideos = async (query) => {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${query}&part=snippet,id&order=date&maxResults=5`
+        );
+        const videoData = response.data.items.map(item => ({
+          _id: item.id.videoId,
+          title: item.snippet.title,
+          videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+          description: item.snippet.description,
+          likes: 0,
+          comments: [],
+        }));
+        setVideos(videoData);
+      } catch (error) {
+        console.error('Error fetching videos', error);
+      }
+    };
+  
+    const handleLike = (id) => {
+      const updatedVideos = videos.map(video => {
+        if (video._id === id) {
+          return { ...video, likes: video.likes + 1 };
+        }
+        return video;
+      });
+      setVideos(updatedVideos);
+      if (currentVideo && currentVideo._id === id) {
+        setCurrentVideo({ ...currentVideo, likes: currentVideo.likes + 1 });
+      }
+    };
+  
+    const handleComment = (id, comment) => {
+      const updatedVideos = videos.map(video => {
+        if (video._id === id) {
+          return { ...video, comments: [...video.comments, comment] };
+        }
+        return video;
+      });
+      setVideos(updatedVideos);
+      if (currentVideo && currentVideo._id === id) {
+        setCurrentVideo({ ...currentVideo, comments: [...currentVideo.comments, comment] });
+      }
+    };
+  
+    const handleSearch = () => {
+      fetchVideos(searchQuery);
+    };
+  
+    const handlePlay = (id) => {
+      const video = videos.find(video => video._id === id);
+      setCurrentVideoId(id);
+      setCurrentVideo(video);
+    };
+  
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        handleSearch();
+      }
+    };
+  
+    const toggleTheme = () => {
+      setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+    };
+  
+    const handleSpeechSearch = () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.start();
+      }
+    };
+  
+    useEffect(() => {
+      const handleVisibilityChange = () => {
+        if (document.hidden && currentVideoId) {
+          const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
+          if (videoElement) videoElement.getInternalPlayer().pauseVideo();
+        } else if (!document.hidden && currentVideoId) {
+          const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
+          if (videoElement) videoElement.getInternalPlayer().playVideo();
+        }
       };
-
-      recognitionRef.current = recognition;
-    }
-  }, []);
-
-  const fetchVideos = async (query) => {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${query}&part=snippet,id&order=date&maxResults=5`
-      );
-      const videoData = response.data.items.map(item => ({
-        _id: item.id.videoId,
-        title: item.snippet.title,
-        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        description: item.snippet.description,
-        likes: 0,
-        comments: [],
-      }));
-      setVideos(videoData);
-    } catch (error) {
-      console.error('Error fetching videos', error);
-    }
-  };
-
-  const handleLike = (id) => {
-    const updatedVideos = videos.map(video => {
-      if (video._id === id) {
-        return { ...video, likes: video.likes + 1 };
-      }
-      return video;
-    });
-    setVideos(updatedVideos);
-    if (currentVideo && currentVideo._id === id) {
-      setCurrentVideo({ ...currentVideo, likes: currentVideo.likes + 1 });
-    }
-  };
-
-  const handleComment = (id, comment) => {
-    const updatedVideos = videos.map(video => {
-      if (video._id === id) {
-        return { ...video, comments: [...video.comments, comment] };
-      }
-      return video;
-    });
-    setVideos(updatedVideos);
-    if (currentVideo && currentVideo._id === id) {
-      setCurrentVideo({ ...currentVideo, comments: [...currentVideo.comments, comment] });
-    }
-  };
-
-  const handleSearch = () => {
-    fetchVideos(searchQuery);
-  };
-
-  const handlePlay = (id) => {
-    const video = videos.find(video => video._id === id);
-    setCurrentVideoId(id);
-    setCurrentVideo(video);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
-  };
-
-  const handleSpeechSearch = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.start();
-    }
-  };
-
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden && currentVideoId) {
-        const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
-        if (videoElement) videoElement.getInternalPlayer().pauseVideo();
-      } else if (!document.hidden && currentVideoId) {
-        const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
-        if (videoElement) videoElement.getInternalPlayer().playVideo();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [currentVideoId]);
-
-  return (
-    <div className={`videos-container ${theme}`}>
-      <header className="header">
-        <div className="header-left">
-          <Link to="https://www.youtube.com">
-            <img src={YouTubeLogo} alt="YouTube Logo" className="youtube-logo" />
-          </Link>
-          <h1 className="youtube-text">YouTube</h1>
-        </div>
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search videos..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <FontAwesomeIcon icon={faSearch} className="search-icon" onClick={handleSearch} />
-          <FontAwesomeIcon icon={faMicrophone} className="microphone-icon" onClick={handleSpeechSearch} />
-        </div>
-        <div className="user-info">
-          <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>
-            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
-          </button>
-          <span className="username">Self</span>
-          <img src={UserLogo} alt="User Logo" className="user-logo" />
-        </div>
-      </header>
-
-      {currentVideo && (
-        <div className="current-video">
-          <h3>{currentVideo.title}</h3>
-          <div className="video-player-large">
-            <ReactPlayer
-              id={currentVideo._id}
-              url={currentVideo.videoUrl}
-              width="100%"
-              height="100%"
-              playing={currentVideoId === currentVideo._id}
-              controls
-              config={{
-                youtube: {
-                  playerVars: {
-                    showinfo: 1,
-                    autoplay: 1,
-                    playsinline: 1,
-                  },
-                },
-              }}
+  
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      };
+    }, [currentVideoId]);
+  
+    return (
+      <div className={`videos-container ${theme}`}>
+        <header className="header">
+          <div className="header-left">
+            <Link to='https://www.youtube.com'>
+              <img src={YouTubeLogo} alt="YouTube Logo" className="youtube-logo" />
+            </Link>
+            <h1 className="youtube-text">YouTube</h1>
+          </div>
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search videos..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
+            <FontAwesomeIcon icon={faSearch} className="search-icon" onClick={handleSearch} />
+            <FontAwesomeIcon icon={faMicrophone} className="microphone-icon" onClick={handleSpeechSearch} />
           </div>
-          <p>{currentVideo.description}</p>
-          <div className="video-actions">
-            <button className="btnn" onClick={() => handleLike(currentVideo._id)}>
-              <img src={LikeLogo} alt="Like" className="btn" /> {currentVideo.likes}
+          <div className="user-info">
+            <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>
+              <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
             </button>
-            <button className="btnn" onClick={() => handleComment(currentVideo._id, prompt('Enter your comment:'))}>
-              <img src={CommentLogo} alt="Comment" className="btn" /> {currentVideo.comments.length}
-            </button>
+            <span className="username">User</span>
+            <img src={UserLogo} alt="User Logo" className="user-logo" />
           </div>
-          <div className="comments-section">
-            {currentVideo.comments.map((comment, index) => (
-              <p key={index} className="comment">{comment}</p>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <ul className="video-list">
-        {videos.filter(video => video._id !== currentVideoId).map((video, index) => (
-          <li key={video._id} className="video-item">
-            <h3>{video.title}</h3>
-            <div className="video-player">
+        </header>
+  
+        {currentVideo && (
+          <div className="current-video">
+            <h3>{currentVideo.title}</h3>
+            <div className="video-player-large">
               <ReactPlayer
-                id={video._id}
-                ref={el => playerRefs.current[index] = el}
-                url={video.videoUrl}
+                id={currentVideo._id}
+                url={currentVideo.videoUrl}
                 width="100%"
                 height="100%"
-                playing={currentVideoId === video._id}
+                playing={currentVideoId === currentVideo._id}
                 controls
-                onPlay={() => handlePlay(video._id)}
                 config={{
                   youtube: {
                     playerVars: {
                       showinfo: 1,
-                      autoplay: 0,
+                      autoplay: 1,
                       playsinline: 1,
                     },
                   },
                 }}
               />
             </div>
-            <p>{video.description}</p>
+            <p>{currentVideo.description}</p>
             <div className="video-actions">
-              <button className="btnn" onClick={() => handleLike(video._id)}>
-                <img src={LikeLogo} alt="Like" className="btn" /> {video.likes}
+              <button className="btnn" onClick={() => handleLike(currentVideo._id)}>
+                <img src={LikeLogo} alt="Like" className="btn" /> {currentVideo.likes}
               </button>
-              <button className="btnn" onClick={() => handleComment(video._id, prompt('Enter your comment:'))}>
-                <img src={CommentLogo} alt="Comment" className="btn" /> {video.comments.length}
+              <button className="btnn" onClick={() => handleComment(currentVideo._id, prompt('Enter your comment:'))}>
+                <img src={CommentLogo} alt="Comment" className="btn" /> {currentVideo.comments.length}
               </button>
             </div>
             <div className="comments-section">
-              {video.comments.map((comment, index) => (
+              {currentVideo.comments.map((comment, index) => (
                 <p key={index} className="comment">{comment}</p>
               ))}
             </div>
-          </li>
-        ))}
-      </ul>
-
-      <footer className="footer">
-        <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved.</p>
-      </footer>
-    </div>
-  );
-};
-
-export default Home;
+          </div>
+        )}
+  
+        <ul className="video-list">
+          {videos.filter(video => video._id !== currentVideoId).map((video, index) => (
+            <li key={video._id} className="video-item">
+              <h3>{video.title}</h3>
+              <div className="video-player">
+                <ReactPlayer
+                  id={video._id}
+                  ref={el => playerRefs.current[index] = el}
+                  url={video.videoUrl}
+                  width="100%"
+                  height="100%"
+                  playing={currentVideoId === video._id}
+                  controls
+                  onPlay={() => handlePlay(video._id)}
+                  config={{
+                    youtube: {
+                      playerVars: {
+                        showinfo: 1,
+                        autoplay: 0,
+                        playsinline: 1,
+                      },
+                    },
+                  }}
+                />
+              </div>
+              <p>{video.description}</p>
+              <div className="video-actions">
+                <button className="btnn" onClick={() => handleLike(video._id)}>
+                  <img src={LikeLogo} alt="Like" className="btn" /> {video.likes}
+                </button>
+                <button className="btnn" onClick={() => handleComment(video._id, prompt('Enter your comment:'))}>
+                  <img src={CommentLogo} alt="Comment" className="btn" /> {video.comments.length}
+                </button>
+              </div>
+              <div className="comments-section">
+                {video.comments.map((comment, index) => (
+                  <p key={index} className="comment">{comment}</p>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+  
+        <footer className="footer">
+          <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved.</p>
+        </footer>
+      </div>
+    );
+  };
+  
+  export default Home;
+  
