@@ -46,6 +46,7 @@ body {
   color: #fff;
   text-align: center;
   padding: 10px;
+  margin-bottom: -7px;
   width: 100%;
 }
 
@@ -352,6 +353,10 @@ ul {
 .light .comment {
   background-color: #fffdfd;
   color: #404040;
+}
+
+.light .footer p{
+  color: #f0eded;
 }
 
 /* Dark mode styles */

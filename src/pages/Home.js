@@ -173,7 +173,10 @@ const Home = () => {
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (!document.hidden && currentVideoId) {
+      if (document.hidden && currentVideoId) {
+        const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
+        if (videoElement) videoElement.getInternalPlayer().pauseVideo();
+      } else if (!document.hidden && currentVideoId) {
         const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
         if (videoElement) videoElement.getInternalPlayer().playVideo();
       }
