@@ -8,7 +8,7 @@ import UserLogo from '../user.png';
 import LikeLogo from '../like.png';
 import CommentLogo from '../cmt.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faMoon, faSearch, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 const API_KEY = 'AIzaSyAMfjkTiVru8DaqGjSa1ps0QspxNJSBbrE'; // Replace with your YouTube API key
 
@@ -19,6 +19,7 @@ const Home = () => {
   const [currentVideo, setCurrentVideo] = useState(null); // State for current video object
   const [theme, setTheme] = useState('dark'); // Theme state
   const playerRefs = useRef([]);
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
     // Set initial videos
@@ -106,6 +107,23 @@ const Home = () => {
     ]);
   }, []);
 
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new window.webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event) => {
+        const speechToText = event.results[0][0].transcript;
+        setSearchQuery(speechToText);
+        fetchVideos(speechToText);
+      };
+
+      recognitionRef.current = recognition;
+    }
+  }, []);
+
   const fetchVideos = async (query) => {
     try {
       const response = await axios.get(
@@ -171,6 +189,12 @@ const Home = () => {
     setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
+  const handleSpeechSearch = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.start();
+    }
+  };
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden && currentVideoId) {
@@ -200,12 +224,13 @@ const Home = () => {
         <div className="search-container">
           <input
             type="text"
-            placeholder="   Search videos..."
+            placeholder="Search videos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button onClick={handleSearch}>Search</button>
+          <FontAwesomeIcon icon={faSearch} className="search-icon" onClick={handleSearch} />
+          <FontAwesomeIcon icon={faMicrophone} className="microphone-icon" onClick={handleSpeechSearch} />
         </div>
         <div className="user-info">
           <button className={`theme-toggle ${theme === 'dark' ? 'dark' : 'light'}`} onClick={toggleTheme}>

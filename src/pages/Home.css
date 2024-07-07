@@ -161,6 +161,15 @@ body {
   background-color: #136bca;
 }
 
+.microphone-icon {
+  cursor: pointer;
+}
+
+.search-icon {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -315,6 +324,14 @@ ul {
 .light .search-container input[type="text"] {
   background-color: #fff;
   color: black;
+}
+
+.light .search-icon{
+  color: #bebebf;
+}
+
+.light .microphone-icon{
+  color: #bebebf;
 }
 
 .light .current-video{
