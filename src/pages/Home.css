@@ -52,14 +52,14 @@ body {
 .youtube-logo {
   margin-top: 4px;
   width: 45px;
-  height: 32px;
+  height: 43px;
   margin-left: -1px;
 }
 
 .youtube-text {
   font-size: 24px;
   font-weight: bold;
-  margin-left: 10px;
+  margin-left: 6px;
   color: #e7e7e7;
 }
 
@@ -316,20 +316,33 @@ ul {
   color: black;
 }
 
+.light .current-video{
+  background-color: rgb(212, 212, 212);
+}
+
+.light .current-video h3{
+  color:#303030;
+}
+
 .light .video-actions {
-  background-color: #282828;
+  background-color: #b2b1b1;
+}
+
+.light .video-item {
+  background-color: rgb(227, 227, 227);
+  color: #3c3c3c;
 }
 
 .light .video-item h3 {
-  color: #e0e0e0;
+  color: #303030;
 }
 
 .light p {
-  color: #ccc;
+  color: #262626;
 }
 
 .light .btnn {
-  color: rgb(225, 225, 225);
+  color: rgb(20, 20, 20);
 }
 
 .light h3 {

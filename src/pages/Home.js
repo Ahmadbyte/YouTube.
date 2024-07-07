@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
 import './Home.css';
-import YouTubeLogo from '../logo.png';
+import YouTubeLogo from '../youtube.png';
 import UserLogo from '../user.png';
 import LikeLogo from '../like.png';
 import CommentLogo from '../cmt.png';
