@@ -10,7 +10,21 @@ import CommentLogo from '../cmt.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon, faSearch, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
-const API_KEY = 'AIzaSyCHLcT5XF4DqwyDJ3rPIDkV2DwvyAGee8Q'; // Replace with your YouTube API key
+const API_KEYS = [
+  'AIzaSyCHLcT5XF4DqwyDJ3rPIDkV2DwvyAGee8Q',
+  'AIzaSyA-Olt7-UB9p5tEhbNzkGxbUnjLjzaLv7I',
+  'AIzaSyAMfjkTiVru8DaqGjSa1ps0QspxNJSBbrE',
+  'AIzaSyAh--OFztAec_Q4pYhGb1JUdZFdWfE0oPY',
+  // Add more API keys as needed
+];
+
+let currentApiKeyIndex = 0;
+
+const getApiKey = () => {
+  const key = API_KEYS[currentApiKeyIndex];
+  currentApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
+  return key;
+};
 
 const Home = () => {
   const [videos, setVideos] = useState([]);
@@ -27,7 +41,7 @@ const Home = () => {
   const fetchDefaultVideos = async () => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=reactjs&part=snippet,id&order=date&maxResults=20`
+        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=reactjs&part=snippet,id&order=date&maxResults=20`
       );
       const videoData = response.data.items.map(item => ({
         _id: item.id.videoId,
@@ -63,7 +77,7 @@ const Home = () => {
   const fetchVideos = async (query) => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${query}&part=snippet,id&order=date&maxResults=20`
+        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&order=date&maxResults=20`
       );
       const videoData = response.data.items.map(item => ({
         _id: item.id.videoId,
@@ -83,7 +97,7 @@ const Home = () => {
   const fetchRelatedVideos = async (videoId) => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${API_KEY}&maxResults=10`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${getApiKey()}&maxResults=10`
       );
       const relatedVideoData = response.data.items.map(item => ({
         _id: item.id.videoId,
