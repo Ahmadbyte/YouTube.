@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef,useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
@@ -20,25 +20,26 @@ const API_KEYS = [
 
 let currentApiKeyIndex = 0;
 
-const getApiKey = () => {
-  const key = API_KEYS[currentApiKeyIndex];
-  currentApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
-  return key;
+const getApiKey = () => API_KEYS[currentApiKeyIndex];
+
+const handleApiError = (error, fetchFunction, ...args) => {
+  if (error.response && error.response.status === 403) {
+    currentApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
+    fetchFunction(...args);
+  } else {
+    console.error('Error fetching videos', error);
+  }
 };
 
 const Home = () => {
   const [videos, setVideos] = useState([]);
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const recognitionRef = useRef(null);
   const playerRefs = useRef([]);
 
-  useEffect(() => {
-    fetchDefaultVideos();
-  }, []);
-
-  const fetchDefaultVideos = async () => {
+  const fetchDefaultVideos = useCallback(async () => {
     try {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=reactjs&part=snippet,id&order=date&maxResults=20`
@@ -53,9 +54,52 @@ const Home = () => {
       }));
       setVideos(videoData);
     } catch (error) {
-      console.error('Error fetching videos', error);
+      handleApiError(error, fetchDefaultVideos);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchDefaultVideos();
+  }, [fetchDefaultVideos]);
+
+  const fetchVideos = useCallback(async (query) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&order=date&maxResults=20`
+      );
+      const videoData = response.data.items.map(item => ({
+        _id: item.id.videoId,
+        title: item.snippet.title,
+        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+        description: item.snippet.description,
+        likes: 0,
+        comments: [],
+      }));
+      setVideos(videoData);
+      setCurrentVideoId(null); // Reset current video when fetching new videos
+    } catch (error) {
+      handleApiError(error, fetchVideos, query);
+    }
+  }, []);
+
+  const fetchRelatedVideos = useCallback(async (videoId) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${getApiKey()}&maxResults=10`
+      );
+      const relatedVideoData = response.data.items.map(item => ({
+        _id: item.id.videoId,
+        title: item.snippet.title,
+        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+        description: item.snippet.description,
+        likes: 0,
+        comments: [],
+      }));
+      setVideos(relatedVideoData); // Replace current videos with related videos
+    } catch (error) {
+      handleApiError(error, fetchRelatedVideos, videoId);
+    }
+  }, []);
 
   useEffect(() => {
     if ('webkitSpeechRecognition' in window) {
@@ -72,46 +116,7 @@ const Home = () => {
 
       recognitionRef.current = recognition;
     }
-  }, []);
-
-  const fetchVideos = async (query) => {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&order=date&maxResults=20`
-      );
-      const videoData = response.data.items.map(item => ({
-        _id: item.id.videoId,
-        title: item.snippet.title,
-        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        description: item.snippet.description,
-        likes: 0,
-        comments: [],
-      }));
-      setVideos(videoData);
-      setCurrentVideoId(null); // Reset current video when fetching new videos
-    } catch (error) {
-      console.error('Error fetching videos', error);
-    }
-  };
-
-  const fetchRelatedVideos = async (videoId) => {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${getApiKey()}&maxResults=10`
-      );
-      const relatedVideoData = response.data.items.map(item => ({
-        _id: item.id.videoId,
-        title: item.snippet.title,
-        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        description: item.snippet.description,
-        likes: 0,
-        comments: [],
-      }));
-      setVideos(relatedVideoData); // Replace current videos with related videos
-    } catch (error) {
-      console.error('Error fetching related videos', error);
-    }
-  };
+  }, [fetchVideos]);
 
   const handleLike = (id) => {
     const updatedVideos = videos.map(video => {
