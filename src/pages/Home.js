@@ -43,7 +43,7 @@ const Home = () => {
   const fetchDefaultVideos = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=reactjs&part=snippet,id&order=date&maxResults=20`
+        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=reactjs tutorials&part=snippet,id&order=relevance&type=video&videoDuration=long&maxResults=20`
       );
       const videoData = response.data.items.map(item => ({
         _id: item.id.videoId,
@@ -58,7 +58,7 @@ const Home = () => {
       handleApiError(error, fetchDefaultVideos);
     }
   }, []);
-
+  
   useEffect(() => {
     fetchDefaultVideos();
   }, [fetchDefaultVideos]);
@@ -66,7 +66,7 @@ const Home = () => {
   const fetchVideos = useCallback(async (query) => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&order=date&maxResults=20`
+        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&type=video&order=relevance&maxResults=20&videoDuration=long`
       );
       const videoData = response.data.items.map(item => ({
         _id: item.id.videoId,
@@ -320,3 +320,4 @@ const Home = () => {
 };
 
 export default Home;
+
