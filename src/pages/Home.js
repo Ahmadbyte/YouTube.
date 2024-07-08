@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef,useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import axios from 'axios';
@@ -38,6 +38,7 @@ const Home = () => {
   const [theme, setTheme] = useState('dark');
   const recognitionRef = useRef(null);
   const playerRefs = useRef([]);
+  const currentVideoContainerRef = useRef(null);
 
   const fetchDefaultVideos = useCallback(async () => {
     try {
@@ -145,6 +146,7 @@ const Home = () => {
   const handlePlay = async (id) => {
     setCurrentVideoId(id); // Set current video id to play
     await fetchRelatedVideos(id); // Fetch related videos when a video is played
+    currentVideoContainerRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to the current video container
   };
 
   const handleKeyDown = (event) => {
@@ -223,7 +225,7 @@ const Home = () => {
       </header>
 
       {currentVideoId && (
-        <div className="current-video">
+        <div className="current-video" ref={currentVideoContainerRef}>
           <h3>{videos.find(video => video._id === currentVideoId)?.title}</h3>
           <div className="video-player-large">
             <ReactPlayer
