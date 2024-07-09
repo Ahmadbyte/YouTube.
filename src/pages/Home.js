@@ -35,7 +35,7 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   const recognitionRef = useRef(null);
   const playerRefs = useRef([]);
   const currentVideoContainerRef = useRef(null);

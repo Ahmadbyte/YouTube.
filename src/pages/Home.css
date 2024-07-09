@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-wrap: wrap; /* Allow videos to wrap to the next line */
   justify-content: flex-start; /* Start layout from the left */
-  margin-top: 80px; /* Adjust top margin to accommodate fixed header */
+  margin-top: 75px; /* Adjust top margin to accommodate fixed header */
 }
 
 .header {
@@ -320,7 +320,15 @@ ul {
   }
 
   .current-video {
-    width: 100%; /* Full width for small screens */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: calc(50vh - 40px); /* Adjust as needed, subtracting padding/margin */
+    z-index: 1000;
+    padding: 20px; /* Adjust padding as needed */
+    overflow-y: auto;
   }
 }
 
