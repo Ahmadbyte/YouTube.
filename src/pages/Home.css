@@ -22,12 +22,12 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px; /* Add padding to the left and right */
-  position: fixed;
+  position:absolute;
   top: 0;
   left: 0;
   right: 0;
-  background-color: #1a1a1a; /* Dark background for the fixed header */
-  z-index: 1000; /* Ensure header is above other content */
+  background-color: #333; /* Dark background for the fixed header */
+ /* Ensure header is above other content */
 }
 
 .header-left {
@@ -42,7 +42,7 @@ body {
 }
 
 .footer {
-  background-color: #1b1b1b;
+  background-color: #333;
   color: #fff;
   text-align: center;
   padding: 10px;
@@ -247,8 +247,8 @@ ul {
   color: #bdb5b5; /* Light text color for comments in dark mode */
 }
 .current-video {
-  width: 100%; /* Adjusts the width to 90% of the screen */
-  max-width: 1370px; /* Maximum width to ensure it doesn't exceed the screen */
+  width: 98%; /* Adjusts the width to 90% of the screen */
+   /* Maximum width to ensure it doesn't exceed the screen */
   margin: 0 auto 30px; /* Centers the container and adds bottom margin */
   background-color: #282828;
   border-radius: 13px;
