@@ -226,7 +226,7 @@ const Home = () => {
 
       {currentVideoId && (
         <div className="current-video" ref={currentVideoContainerRef}>
-          <h3>{videos.find(video => video._id === currentVideoId)?.title}</h3>
+          <h3 className='title'>{videos.find(video => video._id === currentVideoId)?.title}</h3>
           <div className="video-player-large">
             <ReactPlayer
               id={currentVideoId}
@@ -249,7 +249,7 @@ const Home = () => {
               }}
             />
           </div>
-          <p>{videos.find(video => video._id === currentVideoId)?.description}</p>
+          <p className='description'>{videos.find(video => video._id === currentVideoId)?.description}</p>
           <div className="video-actions">
             <button className="btnn" onClick={() => handleLike(currentVideoId)}>
               <img src={LikeLogo} alt="Like" className="btn" /> {videos.find(video => video._id === currentVideoId)?.likes}

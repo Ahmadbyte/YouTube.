@@ -26,7 +26,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #333; /* Dark background for the fixed header */
+  background-color: #1a1a1a; /* Dark background for the fixed header */
   z-index: 1000; /* Ensure header is above other content */
 }
 
@@ -42,7 +42,7 @@ body {
 }
 
 .footer {
-  background-color: #333;
+  background-color: #1b1b1b;
   color: #fff;
   text-align: center;
   padding: 10px;
@@ -247,13 +247,16 @@ ul {
   color: #bdb5b5; /* Light text color for comments in dark mode */
 }
 .current-video {
-  width: 90%; /* Adjusts the width to 90% of the screen */
-  max-width: 1200px; /* Maximum width to ensure it doesn't exceed the screen */
+  width: 100%; /* Adjusts the width to 90% of the screen */
+  max-width: 1370px; /* Maximum width to ensure it doesn't exceed the screen */
   margin: 0 auto 30px; /* Centers the container and adds bottom margin */
   background-color: #282828;
   border-radius: 13px;
   padding: 10px; /* Adds padding inside the container */
   box-sizing: border-box; /* Includes padding in the element's total width and height */ 
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .video-player-large {
@@ -320,15 +323,7 @@ ul {
   }
 
   .current-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-width: 100%;
-    height: calc(50vh - 40px); /* Adjust as needed, subtracting padding/margin */
-    z-index: 1000;
-    padding: 20px; /* Adjust padding as needed */
-    overflow-y: auto;
+    width: 100%; /* Full width for small screens */
   }
 }
 
@@ -427,7 +422,7 @@ ul {
 }
 
 .dark .header {
-  background-color: #333;
+  background-color: #1e1e1e;
 }
 
 .dark .footer {
