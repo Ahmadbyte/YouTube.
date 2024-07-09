@@ -183,10 +183,15 @@ ul {
 .video-item {
   flex: 0 0 calc(25% - 20px); /* Each row contains 4 videos, adjust as needed */
   margin-bottom: 20px;
-  border: 1px solid #707070;
   border-radius: 13px;
   overflow: hidden;
   background-color: #282828; /* Keep background color for both light and dark mode */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Add shadow effect */
+  transition: box-shadow 0.3s ease; /* Smooth transition for shadow effect */
+}
+
+.video-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* Slightly larger shadow on hover */
 }
 
 .video-item h3 {
@@ -241,15 +246,14 @@ ul {
   background-color: #404040; /* Dark background for comments in dark mode */
   color: #bdb5b5; /* Light text color for comments in dark mode */
 }
-
 .current-video {
-  width: 100%;
-  max-width: 800px; /* Set a maximum width for the video container */
-  margin: 0 auto 20px; /* Center align the video container */
-  padding: 20px;
+  width: 90%; /* Adjusts the width to 90% of the screen */
+  max-width: 1200px; /* Maximum width to ensure it doesn't exceed the screen */
+  margin: 0 auto 30px; /* Centers the container and adds bottom margin */
   background-color: #282828;
   border-radius: 13px;
-  border-bottom: 1px solid #ccc; /* Thin line below current video */
+  padding: 10px; /* Adds padding inside the container */
+  box-sizing: border-box; /* Includes padding in the element's total width and height */ 
 }
 
 .video-player-large {
@@ -294,7 +298,7 @@ ul {
   }
 
   .current-video {
-    max-width: 100%; /* Full width for small screens */
+    width: 100%; /* Full width for small screens */
   }
 }
 
@@ -332,6 +336,16 @@ ul {
 
 .light .microphone-icon{
   color: #bebebf;
+}
+.light .current-video{
+  overflow: hidden;
+  background-color: #282828; /* Keep background color for both light and dark mode */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Add shadow effect */
+  transition: box-shadow 0.3s ease; /* Smooth transition for shadow effect */
+}
+
+.current-video:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* Slightly larger shadow on hover */
 }
 
 .light .current-video{
@@ -388,4 +402,27 @@ ul {
 
 .dark .footer {
   background-color:#404040;
+}
+
+.dark .current-video{
+  overflow: hidden; /* Ensures content that overflows the container is hidden */
+  box-shadow: 0 0 8px 4px rgba(255, 253, 253, 0.1); /* Add shadow effect */
+  transition: box-shadow 0.3s ease;
+}
+
+.dark .current-video:hover {
+  box-shadow: 0 0 8px 4px rgba(234, 233, 233, 0.3); /* Slightly larger shadow on hover */
+}
+
+.dark .video-item {
+  flex: 0 0 calc(25% - 20px); /* Each row contains 4 videos, adjust as needed */
+  margin-bottom: 20px;
+  border-radius: 13px;
+  overflow: hidden;
+  box-shadow: 0 0 8px 4px rgba(236, 235, 235, 0.2); /* Add shadow effect */
+  transition: box-shadow 0.3s ease; /* Smooth transition for shadow effect */
+}
+
+.dark .video-item:hover {
+  box-shadow: 0 0 8px 4px rgba(243, 242, 242, 0.3); /* Larger shadow on hover */
 }
