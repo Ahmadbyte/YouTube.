@@ -269,7 +269,7 @@ const Home = () => {
       <ul className="video-list">
         {videos.filter(video => video._id !== currentVideoId).map((video, index) => (
           <li key={video._id} className="video-item">
-            <h3>{video.title}</h3>
+            <h3 className='title'>{video.title}</h3>
             <div className="video-player">
               <ReactPlayer
                 id={video._id}
@@ -294,7 +294,7 @@ const Home = () => {
                 }}
               />
             </div>
-            <p>{video.description}</p>
+            <p className='description'>{video.description}</p>
             <div className="video-actions">
               <button className="btnn" onClick={() => handleLike(video._id)}>
                 <img src={LikeLogo} alt="Like" className="btn" /> {video.likes}
