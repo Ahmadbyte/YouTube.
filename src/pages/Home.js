@@ -313,7 +313,7 @@ const Home = () => {
       </ul>
 
       <footer className="footer">
-        <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved.</p>
+        <p>&copy; 2024 YouTube Pvt Ltd. All rights reserved by @_Ahmad.</p>
       </footer>
     </div>
   );
