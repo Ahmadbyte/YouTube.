@@ -15,7 +15,7 @@ const API_KEYS = [
   'AIzaSyA-Olt7-UB9p5tEhbNzkGxbUnjLjzaLv7I',
   'AIzaSyAMfjkTiVru8DaqGjSa1ps0QspxNJSBbrE',
   'AIzaSyAh--OFztAec_Q4pYhGb1JUdZFdWfE0oPY',
-  // Add more API keys as needed
+  'AIzaSyA86LyjZ1t4BIOhe26B0DDnXnwwA5Ds2-E',
 ];
 
 let currentApiKeyIndex = 0;
