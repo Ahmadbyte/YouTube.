@@ -276,6 +276,7 @@ const Home = () => {
               height="100%"
               playing={true}
               controls
+              playsinline={true}
               config={{
                 youtube: {
                   playerVars: {
@@ -319,6 +320,7 @@ const Home = () => {
                 height="100%"
                 playing={false}
                 controls
+                playsinline={true}
                 onPlay={() => handlePlay(video._id)}
                 config={{
                   youtube: {
