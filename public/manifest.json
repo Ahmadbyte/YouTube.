@@ -1,19 +1,19 @@
 {
   "short_name": "YouTube.",
-  "name": "YouTube @Ahmad_Pvt_Ltd.",
+  "name": "YouTube.",
   "icons": [
     {
-      "src": "youtube.png",
+      "src": "yt.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "youtube.png",
+      "src": "yt.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "youtube.png",
+      "src": "yt.png",
       "type": "image/png",
       "sizes": "512x512"
     }
