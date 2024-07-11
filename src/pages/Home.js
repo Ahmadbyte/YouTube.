@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player';
 import axios from 'axios';
 import './Home.css';
+import ReactPlayer from 'react-player';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faMicrophone, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import YouTubeLogo from '../youtube.png';
 import UserLogo from '../user.png';
 import LikeLogo from '../like.png';
 import CommentLogo from '../cmt.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon, faSearch, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 const API_KEYS = [
   'AIzaSyCHLcT5XF4DqwyDJ3rPIDkV2DwvyAGee8Q',
@@ -32,6 +32,35 @@ const handleApiError = (error, fetchFunction, ...args) => {
   }
 };
 
+const fetchVideoStats = async (videoId) => {
+  try {
+    const response = await axios.get(
+      `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${getApiKey()}&part=statistics`
+    );
+    const { viewCount, likeCount } = response.data.items[0].statistics;
+    return {
+      views: parseInt(viewCount, 10),
+      likes: parseInt(likeCount, 10),
+    };
+  } catch (error) {
+    console.error('Error fetching video stats', error);
+    return {
+      views: 0,
+      likes: 0,
+    };
+  }
+};
+
+const formatNumber = (number) => {
+  if (number >= 1e6) {
+    return (number / 1e6).toFixed(1) + 'M';
+  }
+  if (number >= 1e3) {
+    return (number / 1e3).toFixed(1) + 'K';
+  }
+  return number.toString();
+};
+
 const Home = () => {
   const [videos, setVideos] = useState([]);
   const [currentVideoId, setCurrentVideoId] = useState(null);
@@ -46,20 +75,24 @@ const Home = () => {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=reactjs tutorials&part=snippet,id&order=relevance&type=video&videoDuration=long&maxResults=20`
       );
-      const videoData = response.data.items.map(item => ({
-        _id: item.id.videoId,
-        title: item.snippet.title,
-        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        description: item.snippet.description,
-        likes: 0,
-        comments: [],
+      const videoData = await Promise.all(response.data.items.map(async (item) => {
+        const stats = await fetchVideoStats(item.id.videoId);
+        return {
+          _id: item.id.videoId,
+          title: item.snippet.title,
+          videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+          description: item.snippet.description,
+          likes: stats.likes,
+          views: stats.views,
+          comments: [],
+        };
       }));
       setVideos(videoData);
     } catch (error) {
       handleApiError(error, fetchDefaultVideos);
     }
   }, []);
-  
+
   useEffect(() => {
     fetchDefaultVideos();
   }, [fetchDefaultVideos]);
@@ -69,13 +102,17 @@ const Home = () => {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&type=video&order=relevance&maxResults=20&videoDuration=long`
       );
-      const videoData = response.data.items.map(item => ({
-        _id: item.id.videoId,
-        title: item.snippet.title,
-        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        description: item.snippet.description,
-        likes: 0,
-        comments: [],
+      const videoData = await Promise.all(response.data.items.map(async (item) => {
+        const stats = await fetchVideoStats(item.id.videoId);
+        return {
+          _id: item.id.videoId,
+          title: item.snippet.title,
+          videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+          description: item.snippet.description,
+          likes: stats.likes,
+          views: stats.views,
+          comments: [],
+        };
       }));
       setVideos(videoData);
       setCurrentVideoId(null); // Reset current video when fetching new videos
@@ -89,13 +126,17 @@ const Home = () => {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${getApiKey()}&maxResults=10`
       );
-      const relatedVideoData = response.data.items.map(item => ({
-        _id: item.id.videoId,
-        title: item.snippet.title,
-        videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        description: item.snippet.description,
-        likes: 0,
-        comments: [],
+      const relatedVideoData = await Promise.all(response.data.items.map(async (item) => {
+        const stats = await fetchVideoStats(item.id.videoId);
+        return {
+          _id: item.id.videoId,
+          title: item.snippet.title,
+          videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+          description: item.snippet.description,
+          likes: stats.likes,
+          views: stats.views,
+          comments: [],
+        };
       }));
       setVideos(relatedVideoData); // Replace current videos with related videos
     } catch (error) {
@@ -121,7 +162,7 @@ const Home = () => {
   }, [fetchVideos]);
 
   const handleLike = (id) => {
-    const updatedVideos = videos.map(video => {
+    const updatedVideos = videos.map((video) => {
       if (video._id === id) {
         return { ...video, likes: video.likes + 1 };
       }
@@ -131,7 +172,7 @@ const Home = () => {
   };
 
   const handleComment = (id, comment) => {
-    const updatedVideos = videos.map(video => {
+    const updatedVideos = videos.map((video) => {
       if (video._id === id) {
         return { ...video, comments: [...video.comments, comment] };
       }
@@ -157,7 +198,7 @@ const Home = () => {
   };
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
   const handleSpeechSearch = () => {
@@ -169,10 +210,10 @@ const Home = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden && currentVideoId) {
-        const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
+        const videoElement = playerRefs.current.find((ref) => ref && ref.props.id === currentVideoId);
         if (videoElement) videoElement.getInternalPlayer().pauseVideo();
       } else if (!document.hidden && currentVideoId) {
-        const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
+        const videoElement = playerRefs.current.find((ref) => ref && ref.props.id === currentVideoId);
         if (videoElement) videoElement.getInternalPlayer().playVideo();
       }
     };
@@ -184,9 +225,8 @@ const Home = () => {
   }, [currentVideoId]);
 
   useEffect(() => {
-    // Pause video when navigating away from the page
     const handleUnload = () => {
-      const videoElement = playerRefs.current.find(ref => ref && ref.props.id === currentVideoId);
+      const videoElement = playerRefs.current.find((ref) => ref && ref.props.id === currentVideoId);
       if (videoElement) videoElement.getInternalPlayer().pauseVideo();
     };
 
@@ -227,7 +267,7 @@ const Home = () => {
 
       {currentVideoId && (
         <div className="current-video" ref={currentVideoContainerRef}>
-          <h3 className='title'>{videos.find(video => video._id === currentVideoId)?.title}</h3>
+          <h3 className='title'>{videos.find((video) => video._id === currentVideoId)?.title}</h3>
           <div className="video-player-large">
             <ReactPlayer
               id={currentVideoId}
@@ -244,23 +284,22 @@ const Home = () => {
                     modestbranding: 1,
                     rel: 0,
                     loop: 0, // Set to 0 to prevent auto-loop
-                    // Add other parameters as required
                   },
                 },
               }}
             />
           </div>
-          <p className='description'>{videos.find(video => video._id === currentVideoId)?.description}</p>
+          <p className='description'>{videos.find((video) => video._id === currentVideoId)?.description}</p>
           <div className="video-actions">
             <button className="btnn" onClick={() => handleLike(currentVideoId)}>
-              <img src={LikeLogo} alt="Like" className="btn" /> {videos.find(video => video._id === currentVideoId)?.likes}
+              <img src={LikeLogo} alt="Like" className="btn" /> {formatNumber(videos.find((video) => video._id === currentVideoId)?.likes)}
             </button>
             <button className="btnn" onClick={() => handleComment(currentVideoId, prompt('Enter your comment:'))}>
-              <img src={CommentLogo} alt="Comment" className="btn" /> {videos.find(video => video._id === currentVideoId)?.comments.length}
+              <img src={CommentLogo} alt="Comment" className="btn" /> {videos.find((video) => video._id === currentVideoId)?.comments.length}
             </button>
           </div>
           <div className="comments-section">
-            {videos.find(video => video._id === currentVideoId)?.comments.map((comment, index) => (
+            {videos.find((video) => video._id === currentVideoId)?.comments.map((comment, index) => (
               <p key={index} className="comment">{comment}</p>
             ))}
           </div>
@@ -268,13 +307,13 @@ const Home = () => {
       )}
 
       <ul className="video-list">
-        {videos.filter(video => video._id !== currentVideoId).map((video, index) => (
+        {videos.filter((video) => video._id !== currentVideoId).map((video, index) => (
           <li key={video._id} className="video-item">
             <h3 className='title'>{video.title}</h3>
             <div className="video-player">
               <ReactPlayer
                 id={video._id}
-                ref={el => playerRefs.current[index] = el}
+                ref={(el) => playerRefs.current[index] = el}
                 url={video.videoUrl}
                 width="100%"
                 height="100%"
@@ -284,21 +323,24 @@ const Home = () => {
                 config={{
                   youtube: {
                     playerVars: {
-                      autoplay: 0, // Set to 0 to prevent auto-play on initial load
+                      autoplay: 0,
                       playsinline: 1,
                       modestbranding: 1,
                       rel: 0,
-                      loop: 0, // Optional: Loop video playback
-                      // Add other parameters as required
+                      loop: 0,
                     },
                   },
                 }}
               />
             </div>
             <p className='description'>{video.description}</p>
+            <div className="video-stats">
+              <span>{formatNumber(video.views)} views </span>
+              <span>{formatNumber(video.likes)} likes</span>
+            </div>
             <div className="video-actions">
               <button className="btnn" onClick={() => handleLike(video._id)}>
-                <img src={LikeLogo} alt="Like" className="btn" /> {video.likes}
+                <img src={LikeLogo} alt="Like" className="btn" /> {formatNumber(video.likes)}
               </button>
               <button className="btnn" onClick={() => handleComment(video._id, prompt('Enter your comment:'))}>
                 <img src={CommentLogo} alt="Comment" className="btn" /> {video.comments.length}
@@ -321,4 +363,3 @@ const Home = () => {
 };
 
 export default Home;
-
