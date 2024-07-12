@@ -52,6 +52,10 @@ const fetchVideoStats = async (videoId) => {
 };
 
 const formatNumber = (number) => {
+  if (typeof number === 'undefined') {
+    return ''; // Return empty string or handle this case as per your requirement
+  }
+
   if (number >= 1e6) {
     return (number / 1e6).toFixed(1) + 'M';
   }
@@ -60,6 +64,7 @@ const formatNumber = (number) => {
   }
   return number.toString();
 };
+
 
 const Home = () => {
   const [videos, setVideos] = useState([]);
@@ -100,7 +105,7 @@ const Home = () => {
   const fetchVideos = useCallback(async (query) => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&type=video&order=relevance&maxResults=20&videoDuration=long`
+        `https://www.googleapis.com/youtube/v3/search?key=${getApiKey()}&q=${query}&part=snippet,id&type=video&order=relevance&maxResults=20&videoDuration=any`
       );
       const videoData = await Promise.all(response.data.items.map(async (item) => {
         const stats = await fetchVideoStats(item.id.videoId);
