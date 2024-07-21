@@ -328,6 +328,7 @@ ul {
 
 @media (max-width: 767px) {
   .current-video {
+    width: 100%; /* Ensure the current video fits the width of the mobile screen */
     padding: 5px; /* Reduce padding for smaller screens */
   }
 
@@ -335,6 +336,7 @@ ul {
     border-radius: 5px; /* Adjust border radius for smaller screens */
   }
 }
+
 
 /* Light mode styles */
 .light {
