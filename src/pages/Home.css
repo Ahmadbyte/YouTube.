@@ -254,9 +254,6 @@ ul {
   padding: 10px;
   box-sizing: border-box;
   position: relative;
-  top: 0;
-  left: 0;
-  right: 0;
 }
 
 .video-player-large {
@@ -322,13 +319,13 @@ ul {
   }
 
   .current-video {
-    width: 100%;
+    width: 100% !important;
   }
 }
 
 @media (max-width: 767px) {
   .current-video {
-    width: 100%; /* Ensure the current video fits the width of the mobile screen */
+    width: 100% !important; /* Ensure the current video fits the width of the mobile screen */
     padding: 5px; /* Reduce padding for smaller screens */
   }
 
