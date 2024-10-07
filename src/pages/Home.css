@@ -370,33 +370,35 @@ ul {
 }
 
 .light .current-video {
-  overflow: hidden;
-  background-color: #282828;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  transition: box-shadow 0.3s ease;
+  background-color: white; /* Change the background color to white */
+  color: black; /* Ensure the text color is black for readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the shadow to be lighter */
 }
 
-.current-video:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+.light .video-item {
+  background-color: white; /* Change the background color to white */
+  color: black; /* Ensure the text color is black for readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the shadow to be lighter */
 }
 
-.light .videos-container {
-  background-color: rgba(220, 220, 220, 0.6);
+.light .video-item h3 {
+  color: black; /* Ensure the text color is black for readability */
 }
 
-.light .current-video {
-  background-color: rgb(212, 212, 212);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.light .video-actions {
+  background-color: #f1f1f1; /* Light background color for the actions section */
 }
 
-.light .current-video:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+.light .btnn {
+  color: black; /* Ensure the button text color is black */
 }
 
-.light .title {
-  color: black;
+.light .comments-section {
+  background-color: #f9f9f9; /* Light background color for the comments section */
+  color: black; /* Ensure the text color is black for readability */
 }
 
-.light .description {
-  color: #606060;
+.light .comment {
+  background-color: #eaeaea; /* Light background color for individual comments */
+  color: black; /* Ensure the text color is black for readability */
 }
