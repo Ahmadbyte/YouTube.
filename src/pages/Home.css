@@ -10,8 +10,7 @@ body {
   width: 100%;
   padding: 8px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-direction: column;
   margin-top: 75px;
 }
 
@@ -173,13 +172,12 @@ ul {
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-direction: column;
   gap: 20px;
 }
 
 .video-item {
-  flex: 0 0 calc(25% - 20px);
+  width: 100%;
   margin-bottom: 20px;
   border-radius: 13px;
   overflow: hidden;
@@ -292,6 +290,7 @@ ul {
   height: auto;
 }
 
+/* Responsive Design */
 @media (max-width: 1200px) {
   .video-item {
     flex-basis: calc(33.33% - 20px);
@@ -310,7 +309,7 @@ ul {
 
 @media (max-width: 768px) {
   .video-item {
-    flex-basis: calc(100% - 20px);
+    flex-basis: 100%;
   }
 
   .search-container {
@@ -333,7 +332,6 @@ ul {
     border-radius: 5px; /* Adjust border radius for smaller screens */
   }
 }
-
 
 /* Light mode styles */
 .light {
@@ -388,75 +386,17 @@ ul {
 
 .light .current-video {
   background-color: rgb(212, 212, 212);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.light .current-video h3 {
-  color: #303030;
+.light .current-video:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.light .video-actions {
-  background-color: #b2b1b1;
+.light .title {
+  color: black;
 }
 
-.light .video-item {
-  background-color: rgb(227, 227, 227);
-  color: #3c3c3c;
-}
-
-.light .video-item h3 {
-  color: #303030;
-}
-
-.light p {
-  color: #262626;
-}
-
-.light .btnn {
-  color: rgb(20, 20, 20);
-}
-
-.light h3 {
-  color: rgb(225, 225, 225);
-}
-
-.light .comment {
-  background-color: #fffdfd;
-  color: #404040;
-}
-
-.light .footer p {
-  color: #f0eded;
-}
-
-/* Dark mode styles */
-.dark {
-  background-color: #191919;
-  color: #bdb5b5;
-}
-
-.dark .header {
-  background-color: #1e1e1e;
-}
-
-.dark .footer {
-  background-color: #404040;
-}
-
-.dark .current-video {
-  overflow: hidden;
-  box-shadow: 0 0 8px 4px rgba(255, 253, 253, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.dark .current-video:hover {
-  box-shadow: 0 0 8px 4px rgba(234, 233, 233, 0.3);
-}
-
-.dark .video-item {
-  box-shadow: 0 0 8px 4px rgba(236, 235, 235, 0.2);
-  transition: box-shadow 0.3s ease;
-}
-
-.dark .video-item:hover {
-  box-shadow: 0 0 8px 4px rgba(243, 242, 242, 0.3);
+.light .description {
+  color: #606060;
 }
